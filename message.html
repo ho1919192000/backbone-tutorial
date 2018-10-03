@@ -3,25 +3,58 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Message</title>
-		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/jquery-3.3.1.js"></script>
 		<script src="js/underscore.js"></script>
 		<script src="js/backbone.js"></script>
 	</head>
 	<body>
-        
+
+        <div id="content"></div>
+
+
         <script>
-        	$(document).ready(function() {
-        		var FirstView = Backbone.View.extend({
-        			initialize: function() {
-        				this.render();
-        			},
-        			render: function() {
-        				console.log("Hello World!");
-        			}
-        		});
-        		var firstView = new FirstView();
-        		firstView.render();
-        	});
+                $(function() {
+
+                        let FirstView = Backbone.View.extend({
+                                initialize: function() {
+                                        this.render();
+                                },
+                                render: function() {
+                                        console.log("Hello World!");
+                                        console.log(this.el);
+                                        console.log(this.$el);//defult is div tag
+                                        //this.$el is jquery object which basicallt refers to DOM element.
+                                        this.$el.html("Here is custom message");
+                                        //this.el.innerHTML = "WHAT?";                                       
+                                }
+                        });
+
+                        let firstView = new FirstView({
+                                el: "#content"//pass ID to this View
+                        });
+                        //firstView.render();
+                        
+                        let SecondView =  Backbone.View.extend({
+                                tagName: "span",
+                                className: "btn",
+                                id: "change",
+                                //chage the default tag
+                                initialize: function() {
+                                        this.render();
+                                },
+                                render: function() {
+                                        this.$el.html("\nWe change the default $el");
+                                        $("#content").append(this.$el);
+                                        console.log(this.el);//jQuery Selector
+                                        console.log(this.$el);//jQuery Object refer to a DOM element
+                                }
+
+                        });
+
+                        let secondView = new SecondView();
+                })
+
+                
         </script>
 	</body>
 </html>
