@@ -10,11 +10,12 @@
 	<body>
 
         <div id="content"></div>
+        <div id="content2"></div>
 
 
         <script>
                 $(function() {
-
+                        /*First View*/
                         let FirstView = Backbone.View.extend({
                                 initialize: function() {
                                         this.render();
@@ -24,8 +25,9 @@
                                         console.log(this.el);
                                         console.log(this.$el);//defult is div tag
                                         //this.$el is jquery object which basicallt refers to DOM element.
-                                        this.$el.html("Here is custom message");
-                                        //this.el.innerHTML = "WHAT?";                                       
+                                        this.$el.html("Here is the FirstView~");
+                                        //this.el.innerHTML = "WHAT?"; 
+                                        //$(this.el).html("Hello there!");                                      
                                 }
                         });
 
@@ -34,8 +36,9 @@
                         });
                         //firstView.render();
                         
+                        /*Second View*/
                         let SecondView =  Backbone.View.extend({
-                                tagName: "span",
+                                tagName: "p",
                                 className: "btn",
                                 id: "change",
                                 //chage the default tag
@@ -43,15 +46,27 @@
                                         this.render();
                                 },
                                 render: function() {
-                                        this.$el.html("\nWe change the default $el");
+                                        this.$el.html("We have our SecondView.");
                                         $("#content").append(this.$el);
-                                        console.log(this.el);//jQuery Selector
+                                        console.log(this.el);//DOM element
                                         console.log(this.$el);//jQuery Object refer to a DOM element
                                 }
 
                         });
 
                         let secondView = new SecondView();
+
+                        /*Third View*/
+                        let ThirdView = Backbone.View.extend({
+                                initialize: function() {
+                                        this.$el.html("ThirdView is over here!");
+                                        return this;
+                                }
+                        });
+
+                        let thirdView = new ThirdView();
+                        $('#content2').html(thirdView.$el);
+                        console.log(thirdView);
                 })
 
                 
