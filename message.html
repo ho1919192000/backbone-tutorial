@@ -11,19 +11,97 @@
 
         <div id="content"></div>
         <div id="content2"></div>
+        <div id="content3"></div>
+        <div id="content4"></div>
+        <div id="content5"></div>
+        <div id="content6"></div>
 
+        
+        <script type="text/template" id="tmpl-fifthView">
+                <p>Template in other script</p>
+        </script>
+        <script type="text/template" id="tmpl-sixthView">
+                <p>This template is create in render function!</p>
+        </script>
+        <script type="text/template" id="tmpl-seventhView">
+                <p>This template is create in render function, but with template attr!</p>
+        </script>
 
         <script>
                 $(function() {
+                        /*Seventh View*/
+                        let SeventhView = Backbone.View.extend({
+                                template: $("#tmpl-seventhView").html(),
+                                initialize: function() {
+                                        this.render();
+                                },
+                                render: function() {
+                                        let template = _.template(this.template);
+                                        this.$el.html(template());
+                                        return this;
+                                }
+
+                        });
+
+                        let seventhView = new SeventhView({el: '#content6'});
+
+                        /*Sixth View*/
+                        let SixthView = Backbone.View.extend({
+                                initialize: function() {
+                                        this.render();
+                                },
+                                render: function() {
+                                        let template = _.template($('#tmpl-sixthView').html());
+                                        this.$el.html(template());//no this require in the same scope
+                                        return this;
+                                }
+                        });
+
+                        let sixthView = new SixthView({el: '#content5'});
+
+
+                        /*Fifth View*/
+                        let FifthView = Backbone.View.extend({
+                                template: _.template($("#tmpl-fifthView").html()),
+                                initialize: function() {
+                                        this.render();
+                                },
+                                render: function() {
+                                         this.$el.html(this.template());
+                                         return this;
+                                }
+                        });
+
+                        let fifthView = new FifthView({el: '#content4'});
+
+
+
+                        /*Forth View*/
+                        let ForthView = Backbone.View.extend({
+                                el:"#content3",
+                                template: _.template("<p>Template as par to _.template()</p>"),
+                                initialize: function() {
+                                        this.render();
+                                },
+                                render: function() {
+                                        this.$el.html(this.template());
+                                        return this;
+                                }
+                        });
+
+                        let forthView = new ForthView();
+
+
+
                         /*First View*/
                         let FirstView = Backbone.View.extend({
                                 initialize: function() {
                                         this.render();
                                 },
                                 render: function() {
-                                        console.log("Hello World!");
-                                        console.log(this.el);
-                                        console.log(this.$el);//defult is div tag
+                                        //console.log("Hello World!");
+                                        //console.log(this.el);
+                                        //console.log(this.$el);//defult is div tag
                                         //this.$el is jquery object which basicallt refers to DOM element.
                                         this.$el.html("Here is the FirstView~");
                                         //this.el.innerHTML = "WHAT?"; 
@@ -48,8 +126,8 @@
                                 render: function() {
                                         this.$el.html("We have our SecondView.");
                                         $("#content").append(this.$el);
-                                        console.log(this.el);//DOM element
-                                        console.log(this.$el);//jQuery Object refer to a DOM element
+                                        //console.log(this.el);//DOM element
+                                        //console.log(this.$el);//jQuery Object refer to a DOM element
                                 }
 
                         });
@@ -67,6 +145,8 @@
                         let thirdView = new ThirdView();
                         $('#content2').html(thirdView.$el);
                         console.log(thirdView);
+
+                        
                 })
 
                 
