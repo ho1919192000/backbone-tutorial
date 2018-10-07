@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Delegate Event</title>
+		<script src="js/jquery-3.3.1.js"></script>
+		<script src="js/underscore.js"></script>
+		<script src="js/backbone.js"></script>
+	</head>
+	<body>
+		<div id="content"></div>
+		<div id="content1"></div>
+		
+		<script type="text/html" id="eventTemplate">
+			<button id="btnClick">Click Me</button>
+			<p>Click the btn to execute count.</p>
+		</script>
+		<script type="text/javascript">
+			$(function() {
+				let log = console.log;
+				let EventView2 = Backbone.View.extend({
+					el: "#content1",
+					template: _.template(`Choice the right btn: <button>Wrong</button><button id="right">Right</button>`),
+					events: {
+						"click button#right": "onClick"
+					},
+					onClick: function() {
+						log("You click the right btn!!");
+					},
+					initialize: function() {
+						this.render();
+					},
+					render: function() {
+						this.$el.html(this.template());
+						return this;
+					}
+				});
+
+				let eventView2 = new EventView2();
+
+
+				let EventView = Backbone.View.extend({
+					el: "#content",
+					template: _.template($("#eventTemplate").html()),
+					events: {
+						"click #btnClick": "onClick"//"event_name selector: callback_function"
+					},
+					count: 0,
+					onClick: function() {
+						log(`click ${this.count} times!`);
+						this.count++;
+					},
+					initialize: function() {
+						this.render();
+					},
+					render: function() {
+						this.$el.html(this.template());
+					}
+			    });
+
+			    let eventView = new EventView();
+			});
+		</script>
+	</body>
+</html>
