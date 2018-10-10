@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Models</title>
+		<script src="js/jquery-3.3.1.js"></script>
+		<script src="js/underscore.js"></script>
+		<script src="js/backbone.js"></script>
+	</head>
+	<body>
+
+		<script type="text/javascript">
+			$(function() {
+				let log = console.log;
+				let Model1 = Backbone.Model.extend({
+					initialize: function() {
+						log("Hello first model");
+					}
+				});
+
+				let model1 = new Model1();
+				//model1.set("name", "Howard");
+				model1.set({
+					name:"Howard",
+					age: 27,
+					degree: "Master"
+				});
+				log(model1);
+
+				let data = model1.toJSON();//Use toJSON() to retrive value from model1
+				log(data);
+
+				let data1 = model1.get("degree");
+				log(data1);
+			});
+			
+		</script>
+	</body>
+</html>
