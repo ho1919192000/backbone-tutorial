@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Models</title>
+		<script src="js/jquery-3.3.1.js"></script>
+		<script src="js/underscore.js"></script>
+		<script src="js/backbone.js"></script>
+	</head>
+	<body>
+
+		<script type="text/javascript">
+			$(function() {
+
+				let log = console.log;
+
+				let Model = Backbone.Model.extend({
+					defaults: {
+						name: '',
+						age: 18,
+						sex: 'male'
+					},
+					initialize: function() {
+						log('A model is created');
+					}
+				});
+
+				let model1 = new Model({
+					name: 'Howard',
+					age: 23
+				});
+
+
+				let ModelView = Backbone.View.extend({
+					initialize: function() {
+						this.render();
+					},
+					render: function() {
+						let data = this.model.toJSON();//toJSON() Kretrive value form model 
+						log(_.keys(data));//get all keys inside obj
+						_.keys(data).forEach(key => log(key + ": " + data[key]));	
+					}
+				});
+
+				let mview = new ModelView({
+					model: model1//pass model into View
+				});
+			});
+			
+		</script>
+	</body>
+</html>
