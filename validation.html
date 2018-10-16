@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
+    <script src="https://underscorejs.org/underscore.js"></script>
+    <script src="http://backbonejs.org/backbone.js"></script>
+</head>
+
+<body>
+
+    <script>
+        let log = console.log;
+
+        let Todo =  Backbone.Model.extend({
+            defaults: {
+                completed: false
+            },
+            validate: function(attrs) {
+                if(attrs.title === undefined){
+                    attrs.title = 'untitled';
+                }
+            },
+            initialize: function() {
+                log('Todo model has been initialized.');
+                this.on('invalid', function(model, error){
+                    log(error);
+                })
+            }
+        })
+        
+        let myTodo = new Todo();
+        myTodo.set({completed: true}, {validate: true});
+        log('completed: ' + myTodo.get('completed'));
+        
+
+    </script>
+</body>
+
+</html>
