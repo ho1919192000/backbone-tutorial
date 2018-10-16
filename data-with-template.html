@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Pass Model data into Template</title>
+		<script src="js/jquery-3.3.1.js"></script>
+		<script src="js/underscore.js"></script>
+		<script src="js/backbone.js"></script>
+	</head>
+	<body>
+		<div id="content"></div>
+		<script type="text/html" id="info">
+			<%=name%> is <%=age%> year old.
+		</script>
+
+		<script type="text/javascript">
+			let log = console.log;
+
+			let Model = Backbone.Model.extend({
+				initialize: function() {
+					log('A model is created.');
+					this.on('change', () => {
+						log('Something change:');
+						log(this.changed)
+					});
+				}
+			});
+
+			let modelobj = new Model();
+
+			modelobj.set({
+				name: 'John',
+				age: 23
+			});
+
+
+
+			let ModelView = Backbone.View.extend({
+				template: _.template($('#info').html()),
+				el: '#content',
+				model: modelobj,
+				initialize: function() {
+					this.render();
+				},
+				render: function() {
+					log('View has been created.');
+					//log(this.model.toJSON());
+					this.$el.html(this.template(this.model.toJSON()));
+				}
+			});
+
+			let modelView = new ModelView();
+
+			/*Inline Template
+			=================
+			_.template('<%= property_name %>');
+			this.$el.html(this.template(this.model.toJSON()));
+
+
+			_.template('<%= this.model.get('property_name') %>');
+			this.$el.html(this.template({
+				model: this.model.toJSON()
+			}));
+			*/
+		</script>
+	</body>
+</html>
