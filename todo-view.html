@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
+    <script src="https://underscorejs.org/underscore.js"></script>
+    <script src="http://backbonejs.org/backbone.js"></script>
+</head>
+
+<body>
+    <div id="todo"></div>
+    <script type="text/html" id="item-template">
+        <div>
+            <input id="todo_complete" type="checkbox" <%= completed ? 'checked="checked"' : '' %>>
+            <%= title %>
+        </div>
+    </script>
+
+    <script>
+        let log = console.log;
+
+        /*---Model---*/
+        let Todo = Backbone.Model.extend({
+            defaults: {
+                title: '',
+                completed: false
+            },
+            initialize: function() {
+                log('this Model has been initialized');
+                this.on('change:title', function() {
+                    log('Title value for this model has changed.')
+                })
+            },
+            setTitle: function(newTitle) {
+                this.set('title', newTitle);
+            }
+        });
+
+        let todo = new Todo();
+        todo.setTitle('Buy a gift card for Ted\'s birthday');
+
+        /*---View---*/
+        let TodoView = Backbone.View.extend({
+            tagName: 'li',
+            todoTemplate: _.template($('#item-template').html()),
+            events: {
+                'dbclick label': 'edit',
+                'keypress .edit': 'updateOnEnter',
+                'blur .edit': 'close'
+            },
+            initialize: function(options = {}) {
+                this.options = options;
+                this.render();
+            },
+            render: function() {
+                this.$el.html(this.todoTemplate(this.model.attributes));
+                this.input = this.$('.edit');
+                return this;
+            },
+            edit: function() {
+
+            },
+            updateOnEnter: function(e) {
+
+            },
+            close: function() {
+
+            }
+        });
+
+        let todoView = new TodoView({
+            model: todo
+        });
+
+        log(todoView.el);
+
+        let TodosView = Backbone.View.extend({
+            tagName: 'ul',
+            className: 'container',
+            id: 'todos'
+        });
+
+        let todosView = new TodosView();
+        log(todosView.el);
+    </script>
+</body>
+
+</html>
