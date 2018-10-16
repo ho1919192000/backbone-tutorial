@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
+    <script src="https://underscorejs.org/underscore.js"></script>
+    <script src="http://backbonejs.org/backbone.js"></script>
+</head>
+
+<body>
+
+    <script>
+        let log = console.log;
+
+        let btn1 = $('<button></button>');
+        let btn2 = $('<button></button>');
+
+        let View = Backbone.View.extend({
+            events: {
+                'click': function(e) {
+                    log(this.el === e.target)
+                }
+            }
+        });
+
+        let view = new View({
+            el: btn1
+        });
+
+        view.setElement(btn2);
+        //setElement will create a cached $el reference for you, moving the delegated events for a view from the old element to the new one.
+        
+        btn1.trigger('click');
+        btn2.trigger('click');
+
+    </script>
+</body>
+
+</html>
