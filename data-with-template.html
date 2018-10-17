@@ -11,9 +11,19 @@
 		<div id="content"></div>
 		<script type="text/html" id="info">
 			<%=name%> is <%=age%> year old.
+			<br>
+			<%=name%> will be <%= age + 10 %> after 10 years.
+			<br>
+			<% if(age > 10){ %>
+			  	<%= age %> is more than 10
+			<% }else{ %>
+				<%= age %> is less than 10
+			<% } %>
+			
 		</script>
 
 		<script type="text/javascript">
+			//<%  %> is for calculation, <%=  %> is for printing something
 			let log = console.log;
 
 			let Model = Backbone.Model.extend({
