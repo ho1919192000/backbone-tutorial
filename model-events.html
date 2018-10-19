@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Model Events</title>
+		<script src="js/jquery-3.3.1.js"></script>
+		<script src="js/underscore.js"></script>
+		<script src="js/backbone.js"></script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			let log = console.log;
+
+			let MyModel = Backbone.Model.extend({
+				defaults: {
+					name: 'Default Name',
+					author: 'Default author'
+				},
+				initialize: function() {
+					log('Model Constructor');
+				}
+			});
+
+			let myModel = new MyModel();
+
+			myModel.set({
+				name: '<p>SEVIS TIPS</p>',
+				author: 'Tom King'
+			});
+
+			let MyView = Backbone.View.extend({
+				model: myModel,
+				initialize: function() {
+					this.render();
+				},
+				render() {
+					// escape() return the HTML-escaped version
+					log('4. escape() return the HTML-escaped version');
+					log(`this.model.escape('name') => ${this.model.escape('name')}`);
+					log(`this.model.get('name') => ${this.model.get('name')}`);
+					//has() used to check the attrs existing
+					log('5. has() used to check the attrs existing');
+					log(`this.model.has('name') => ${this.model.has('name')}`);
+					log(`this.model.has('price') => ${this.model.has('price')}`);
+					//unset() used to remove attrs
+					log('6. unset() used to remove attrs');
+					log(this.model.toJSON());
+					log(`this.model.unset('author') => ${this.model.unset('author')}`);
+					log(this.model.toJSON());
+					//clear() remove all attrs
+					log('7. clear() remove all attrs');
+					log(`this.model.clear() => ${this.model.clear()}`);
+					log(this.model.toJSON());
+				},
+				findKey: function(attrsName) {
+					if(this.model.has(attrsName)) {
+						log('Key Exists.');
+					}else {
+						log('Key not found.');
+					}
+				}
+			});
+
+			let myView = new MyView();
+			//myView.findKey('love');
+			/*
+			Model Events:
+			============
+			1. initialize
+			2. set
+			3. get
+				toJSON()
+
+			4. escape
+			5. has
+			6. unset
+			7. clear
+			8. defaults
+			 */
+		</script>
+	</body>
+</html>
