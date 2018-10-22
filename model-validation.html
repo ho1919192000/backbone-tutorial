@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Model Validation</title>
+		<script src="js/jquery-3.3.1.js"></script>
+		<script src="js/underscore.js"></script>
+		<script src="js/backbone.js"></script>
+	</head>
+	<body>
+		<div id="content"></div>
+		
+		<script type="text/javascript">
+			let log = console.log;
+			let Student = Backbone.Model.extend({
+				initialize: function() {
+					log('Model Constructor');
+					/*
+					this.on('invalid', function(model, error) {
+						log(error);
+					})
+					*/
+				},
+				validate: function(attrs) {
+
+					if(attrs.age < 18) {
+						return 'Age should more than 18.';
+					}
+
+					if(!attrs.name) {
+						return 'Name is needed.';
+					}
+				} 
+			});
+
+			let st1 = new Student({
+				name: '',
+				team: 'ToolCase',
+				age: 21
+			});
+
+			//st1.isValid();
+
+			/*
+			log(st1.isValid());
+			log(st1.validationError);
+			*/
+			//st1.set('age', 32);
+
+			let View = Backbone.View.extend({
+				model: st1,
+				initialize: function() {
+					this.render();
+				},
+				render: function() {
+					if(this.model.isValid()) {
+						log('The value are correct as:');
+						log(this.model.toJSON());
+					}else {
+						log(this.model.validationError);
+					}
+				}
+			});
+
+			let view1 = new View();
+
+			/*
+			Model Validation
+
+			1. validate
+			2. isValid()
+			3. validationError
+			 */
+		</script>
+	</body>
+</html>
