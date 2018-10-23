@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Model Change Events</title>
+		<script src="js/jquery-3.3.1.js"></script>
+		<script src="js/underscore.js"></script>
+		<script src="js/backbone.js"></script>
+	</head>
+	<body>
+		<div id="content"></div>
+		<script type="text/html" id="each">
+			<% _.each(this.model.attributes, function(value, key){ %>
+				<%= key %>: <%= value %>
+				<br>
+			<% }) %>
+		</script>
+		
+		<script type="text/javascript">
+			let log = console.log;
+			
+			/*
+			Model Change Events
+
+			1. this.bind('change', [callback function])
+
+			2. this.model.on('change', [callback funcation])
+
+			3. this.model.bind('change', [callback function])
+
+			4. _.each(this.model.attributes, function(value, key) {})
+			 */
+			
+			let Student = Backbone.Model.extend({
+				initialize: function() {
+					log('Model Constructor');
+
+					this.bind('change', function(model) {
+						log('Model Changed!');
+						log(this.changed);
+						//view.render();
+					})
+
+					this.bind('change:name', function(model) {
+						log('name attr has been changed!');
+					});
+				}
+			});
+
+			let st1 = new Student({
+				name: 'John',
+				school: 'University of Denver',
+				age: 24
+			});
+
+			let View = Backbone.View.extend({
+				el: '#content',
+				model: st1,
+				template: _.template($('#each').html()),
+				initialize: function() {
+					this.render();
+				},
+				render: function() {
+					this.$el.html(this.template(this.model.toJSON()));
+
+					/*
+					this.model.on('change', function() {
+						log('Model changed detected by view');
+						this.$el.html(this.template(this.model.toJSON()));
+					}.bind(this));
+					*/
+					//using bind to keep the scope in this function
+					
+					//this.model.bind('change:name', this.update);
+					
+					/*
+					this.model.bind('change:name', function() {
+						this.update();
+					}.bind(this));
+					*/
+				
+					this.model.on('change', _.bind(this.update, this));
+				},
+				update: function() {
+					log('Model changed detected by view');
+					this.$el.html(this.template(this.model.toJSON()));
+				}
+			});
+
+			let view = new View();
+		</script>
+	</body>
+</html>
