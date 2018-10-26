@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>(Part 18) Collection Events in backbone.js</title>
+		<script src="js/jquery-3.3.1.js"></script>
+		<script src="js/underscore.js"></script>
+		<script src="js/backbone.js"></script>
+	</head>
+	<body>
+
+		<script type="text/html" id="each">
+			Name: <%= name %>
+			<br>
+			Team: <%=team%>
+			<br>
+			No. <%= no%>
+			<br>
+			<br>
+		</script>
+
+		<div id="content"></div>
+		
+		
+		<script type="text/javascript">
+
+		$(function() {
+			let log = console.log;
+			/*
+			(Part 18) Collection Events in backbone.js
+			
+			1. add
+			2. unshift
+			3. push
+
+			4. remove
+			5. pop
+			6.shift
+			*/
+		
+			/*---Model---*/
+			let Player = Backbone.Model.extend({
+				defaults: {
+					name: "Howard Huang",
+					team: "WOW",
+					no: 19
+				}
+			});
+			let player1 = new Player({
+				name: "John Steve",
+				team: "CSGO",
+				no: 25,
+				id: 1
+			});
+			let player2 = new Player({
+				name: "Dan King",
+				team: "OverWatch",
+				no: 32,
+				id: 2
+			});
+			let player3 = new Player({
+				name: "Nick Bitch",
+				team: "WOW",
+				no: 26,
+				id: 3
+			});
+			/*---Collection---*/
+			let PlayerCollection = Backbone.Collection.extend({
+				model: Player
+			});
+			let playerCollection = new PlayerCollection();
+
+			playerCollection.add([player1, player2]);
+			playerCollection.add(player3, {at:1});//insert to given position
+			/*add() is like push*/
+			//playerCollection.add([player1, player2]);
+			//playerCollection.add(player2);
+			
+			/*unshift() add item to the beginngin*/
+			//playerCollection.unshift([player1, player2]);
+			//playerCollection.unshift(player2);
+			
+			/*push()*/
+			//playerCollection.push([player1, player2]);
+			//playerCollection.push(player2);
+			
+			/*remove() is like shift()*/
+			//playerCollection.remove(player1);
+			/*pop() remove the end item*/
+			//playerCollection.pop();
+			/*shift() remove the first item*/
+			//playerCollection.shift();
+			playerCollection.remove({at:1});
+			
+			/*---View---*/
+			let ProjectView = Backbone.View.extend({
+				el: '#content',
+				template: _.template($('#each').html()),
+				collection: playerCollection,
+				initialize: function() {
+					this.render();
+				},
+				render: function() {
+					log('ProjectView created.');
+					//log(this.collection.toJSON());
+
+					_.each(this.collection.toJSON(), function(model) {
+						this.$el.append(this.template(model));
+						log(model);
+					}.bind(this));
+
+				}
+			});
+			let pView = new ProjectView();
+		});
+			
+		</script>
+	</body>
+</html>
