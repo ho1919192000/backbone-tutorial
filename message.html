@@ -15,6 +15,7 @@
         <div id="content4"></div>
         <div id="content5"></div>
         <div id="content6"></div>
+        <div id="content7"></div>
 
         
         <script type="text/template" id="tmpl-fifthView">
@@ -26,9 +27,27 @@
         <script type="text/template" id="tmpl-seventhView">
                 <p>This template is create in render function, but with template attr!</p>
         </script>
+        <script type="text/template" id="tmpl-eigthView">
+                
+        </script>
 
         <script>
                 $(function() {
+                        /*Eigth View*/
+                        let EigthView = Backbone.View.extend({
+                                el: "#content7",
+                                template: _.template($("#tmpl-eigthView").html()),
+                                initialize: function() {
+                                        this.render();
+                                },
+                                render: function() {
+
+                                        return this;
+                                }
+
+                        });
+                        let eightView = new EigthView();
+
                         /*Seventh View*/
                         let SeventhView = Backbone.View.extend({
                                 template: $("#tmpl-seventhView").html(),

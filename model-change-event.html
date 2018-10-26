@@ -29,6 +29,8 @@
 			3. this.model.bind('change', [callback function])
 
 			4. _.each(this.model.attributes, function(value, key) {})
+
+			5. _.bind([callback function], {object})
 			 */
 			
 			let Student = Backbone.Model.extend({
@@ -59,6 +61,7 @@
 				template: _.template($('#each').html()),
 				initialize: function() {
 					this.render();
+					this.model.on('change', _.bind(this.update, this));
 				},
 				render: function() {
 					this.$el.html(this.template(this.model.toJSON()));
@@ -79,11 +82,11 @@
 					}.bind(this));
 					*/
 				
-					this.model.on('change', _.bind(this.update, this));
+					
 				},
 				update: function() {
 					log('Model changed detected by view');
-					this.$el.html(this.template(this.model.toJSON()));
+					this.render();
 				}
 			});
 

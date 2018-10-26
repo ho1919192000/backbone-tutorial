@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>More Model Events and listen to event</title>
+		<script src="js/jquery-3.3.1.js"></script>
+		<script src="js/underscore.js"></script>
+		<script src="js/backbone.js"></script>
+	</head>
+	<body>
+		<div id="content"></div>
+		<script type="text/html" id="each">
+			<% _.each(this.model.attributes, function(value, key){ %>
+				<%= key %>: <%= value %>
+				<br>
+			<% }) %>
+		</script>	
+		
+		<script type="text/javascript">
+			let log = console.log;
+
+			/*
+			(Part 16) Model Inheritance in backbone.js
+
+
+			 */
+
+			let FModel = Backbone.Model.extend({ //Paremt Model
+				initialize: function() {
+					log('Parent model is running');
+				},
+				playing: function() {
+					log('Parent playing Method.');
+				}
+			});
+
+			//let mymodel = new FModel();
+
+			let ChildModel = FModel.extend({
+				childMethod: function() {
+					log('Child Method.');
+				},
+				playing: function() {
+					FModel.prototype.playing.apply(this);// Keep parent method
+					log('Child playing Method.');
+				}
+			});
+
+			let childModel = new ChildModel();
+
+			childModel.playing();
+			childModel.childMethod();
+		</script>
+	</body>
+</html>

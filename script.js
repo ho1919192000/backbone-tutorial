@@ -46,7 +46,7 @@
 						log('Value not changed.');
 					}*/
 
-					this.listenTo(this.model, 'change', this.update);
+					   
 				},
 				update: function() {
 					log('Something Change');
