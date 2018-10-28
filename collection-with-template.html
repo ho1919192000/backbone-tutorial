@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>(Part 19) Collection to underscore.js template</title>
+		<script src="js/jquery-3.3.1.js"></script>
+		<script src="js/underscore.js"></script>
+		<script src="js/backbone.js"></script>
+	</head>
+	<body>
+
+		<script type="text/html" id="each">
+			Name: <%= name %>
+			<br>
+			Team: <%=team%>
+			<br>
+			No. <%= no%>
+			<br>
+			<br>
+		</script>
+		<script type="text/html" id="tmpl-first">
+			<% _.each(collection, function(model) { %>
+				Name: <%= model.name %>
+				<br>
+				Team: <%= model.team%>
+				<br>
+				No. <%= model.no%>
+				<br>
+				<br>
+			<% })%>
+		</script>
+		<div id="content"></div>
+		
+		
+		<script type="text/javascript">
+
+		$(function() {
+			let log = console.log;
+			/*
+			(Part 19) Collection to underscore.js template
+			
+			*/
+		
+			/*---Model---*/
+			let Player = Backbone.Model.extend({
+				defaults: {
+					name: "Howard Huang",
+					team: "WOW",
+					no: 19
+				}
+			});
+			let player1 = new Player({
+				name: "John Steve",
+				team: "CSGO",
+				no: 25
+			});
+			let player2 = new Player({
+				name: "Dan King",
+				team: "OverWatch",
+				no: 32
+			});
+			let player3 = new Player({
+				name: "Nick Bitch",
+				team: "WOW",
+				no: 26
+			});
+			/*---Collection---*/
+			let PlayerCollection = Backbone.Collection.extend({
+				model: Player
+			});
+			let playerCollection = new PlayerCollection([player1, player2, player3]);
+			/*---View---*/
+			let ProjectView = Backbone.View.extend({
+				el: '#content',
+				template: _.template($('#tmpl-first').html()),
+				collection: playerCollection,
+				initialize: function() {
+					this.render();
+				},
+				render: function() {
+					log('ProjectView created.');
+					//log(this.collection.toJSON());
+					/*
+					_.each(this.collection.toJSON(), function(model) {
+						log(this.$el);
+						this.$el.append(this.template(model));
+						log(model);
+					}.bind(this));
+					*/
+				
+					this.$el.html(this.template({
+						collection: this.collection.toJSON()
+					}));
+				}
+			});
+			let pView = new ProjectView();
+		});
+			
+		</script>
+	</body>
+</html>
