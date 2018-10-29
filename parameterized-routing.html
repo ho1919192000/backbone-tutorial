@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>(Part 21) Routing in backbone.js</title>
+		<script src="js/jquery-3.3.1.js"></script>
+		<script src="js/underscore.js"></script>
+		<script src="js/backbone.js"></script>
+	</head>
+	<body>
+
+		<nav id="nav">
+			<ul>
+				<li><a href="#/">View 1</a></li>
+				<li><a href="#/view2/25/Hi">View 2</a></li>
+				<li><a href="#/view3/63">View 3</a></li>
+			</ul>
+		</nav>
+
+
+		<div id="content"></div>
+		
+		
+		<script type="text/javascript">
+
+		$(function() {
+			let log = console.log;
+			/*
+			(Part 21) Routing in backbone.js
+			
+			Backbone.js Router is used for client side applications and connecting them to 
+			actions and events. It also defines the URL representation of applications object
+			when web applications provide linkable, bookmarkable, and sharable URL.
+			*/
+		
+			/*---View 1---*/
+			let View1 = Backbone.View.extend({
+				el:'#content',
+				initialize: function() {
+					this.render();
+				},
+				render: function() {
+					this.$el.html('View 1 is running...');
+				}
+			});
+
+			/*---View 2---*/
+			let View2 = Backbone.View.extend({
+				el:'#content',
+				initialize: function() {
+					this.render();
+				},
+				render: function() {
+					this.$el.html('View 2 is running...');
+				}
+			});
+
+			/*---View 3---*/
+			let View3 = Backbone.View.extend({
+				el:'#content',
+				initialize: function() {
+					this.render();
+				},
+				render: function() {
+					this.$el.html('View 3 is running...');
+				}
+			});
+
+			
+			
+			let ProjectRouter = Backbone.Router.extend({
+				routes: {
+					"": "ShowView1",//default routing: /backbone/routing.html
+					"view2/:view2id/:msg2": "ShowView2",// => /:viewid pass the id
+					"view3(/:view3id)(/:msg3)": "ShowView3"// (/:view3id) make pass par optional
+				},
+				ShowView1: function() {
+					let view1 = new View1();
+				},
+				ShowView2: function(view2id, msg2) {//pass the id here
+					log(view2id  + " " + msg2);
+					let view2 = new View2();
+				},
+				ShowView3: function(view3id, msg3) {
+					log(view3id + " " + msg3 );
+					let view3 = new View3();
+				}
+			});
+			
+			/*
+			let ProjectRouter = Backbone.Router.extend({
+				routes: {
+					"": "ShowView1",//default routing: /backbone/routing.html
+					"view2": "ShowView2",// => /:viewid pass the id
+					"view3": "ShowView3"// (/:view3id) make pass par optional
+				},
+				ShowView1: function() {
+					let view1 = new View1();
+				},
+				ShowView2: function() {//pass the id here
+					let view2 = new View2();
+				},
+				ShowView3: function() {
+					let view3 = new View3();
+				}
+			});
+			*/
+			let proRouter = new ProjectRouter();
+
+			Backbone.history.start();//to start router, we need to start broswer's history tracking
+		});
+			
+		</script>
+	</body>
+</html>
