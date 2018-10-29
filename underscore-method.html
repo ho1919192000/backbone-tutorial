@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>(Part 20) Underscore js Methods in backbone.js</title>
+		<script src="js/jquery-3.3.1.js"></script>
+		<script src="js/underscore.js"></script>
+		<script src="js/backbone.js"></script>
+	</head>
+	<body>
+
+		
+		<div id="content"></div>
+		
+		
+		<script type="text/javascript">
+
+		$(function() {
+			let log = console.log;
+			/*
+			(Part 20) Underscore js Methods in backbone.js
+			
+			*/
+		
+			/*---Model---*/
+			let Player = Backbone.Model.extend({
+				defaults: {
+					name: "Howard Huang",
+					team: "WOW",
+					no: 19
+				}
+			});
+			let player1 = new Player({
+				name: "John Steve",
+				team: "CSGO",
+				no: 25
+			});
+			let player2 = new Player({
+				name: "Dan King",
+				team: "OverWatch",
+				no: 25
+			});
+			let player3 = new Player({
+				name: "Nick Bitch",
+				team: "WOW",
+				no: 26
+			});
+			/*---Collection---*/
+			let PlayerCollection = Backbone.Collection.extend({
+				model: Player
+			});
+			let playerCollection = new PlayerCollection();
+
+			playerCollection.add([player1, player2, player3]);
+			/*---View---*/
+			let ProjectView = Backbone.View.extend({
+				el: '#content',
+				//template: _.template($('#tmpl-first').html()),
+				collection: playerCollection,
+				initialize: function() {
+					this.render();
+				},
+				render: function() {
+					//_.each()
+					_.each(this.collection.toJSON(), function(model) {
+						//log(model.name);
+					})
+
+					//_.where() return all obj where value equal to given value
+					var playerdata = _.where(this.collection.toJSON(), {no: 25});
+					log('_.where()')
+					log(playerdata);//two objs
+					
+					//_.findWhere() fetch first value that matched 
+					let playerdata1 = _.findWhere(this.collection.toJSON(), {no: 25});
+					log('_.findWhere()')
+					log(playerdata1);
+					
+					//_.find() return the first that matched the condition
+					let playerdata2 = _.findWhere(this.collection.toJSON(), function(model) {
+						return model.no > 1
+					});
+					log('_.find()')
+					log(playerdata2);
+
+					//_.filter() return whole list of targets
+					let playerdata3 = _.filter(this.collection.toJSON(), function(model) {
+						return model.no > 1
+					});
+					log('_.filter()')
+					log(playerdata3);
+
+					//_.pluck() return all values of given attrs
+					let playerdata4 = _.pluck(this.collection.toJSON(), "name");
+					log('_.pluck()');
+					log(playerdata4)
+
+				}
+			});
+			let pView = new ProjectView();
+		});
+			
+		</script>
+	</body>
+</html>
