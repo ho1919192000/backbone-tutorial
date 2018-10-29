@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>(Part 21) Routing in backbone.js</title>
+		<script src="js/jquery-3.3.1.js"></script>
+		<script src="js/underscore.js"></script>
+		<script src="js/backbone.js"></script>
+	</head>
+	<body>
+
+		
+		<div id="content"></div>
+		
+		
+		<script type="text/javascript">
+
+		$(function() {
+			let log = console.log;
+			/*
+			(Part 21) Routing in backbone.js
+			
+			Backbone.js Router is used for client side applications and connecting them to 
+			actions and events. It also defines the URL representation of applications object
+			when web applications provide linkable, bookmarkable, and sharable URL.
+			*/
+		
+			/*---View 1---*/
+			let View1 = Backbone.View.extend({
+				el:'#content',
+				initialize: function() {
+					this.render();
+				},
+				render: function() {
+					this.$el.html('View 1 is running...');
+				}
+			});
+
+			/*---View 2---*/
+			let View2 = Backbone.View.extend({
+				el:'#content',
+				initialize: function() {
+					this.render();
+				},
+				render: function() {
+					this.$el.html('View 2 is running...');
+				}
+			});
+
+			/*---View 3---*/
+			let View3 = Backbone.View.extend({
+				el:'#content',
+				initialize: function() {
+					this.render();
+				},
+				render: function() {
+					this.$el.html('View 3 is running...');
+				}
+			});
+
+			
+
+			let ProjectRouter = Backbone.Router.extend({
+				routes: {
+					"": "ShowView1",//default routing: /backbone/routing.html
+					"view2": "ShowView2",// backbone/routing.html#/view2
+					"view3": "ShowView3"// backbone/routing.html#/view3
+				},
+				ShowView1: function() {
+					let view1 = new View1();
+				},
+				ShowView2: function() {
+					let view2 = new View2();
+				},
+				ShowView3: function() {
+					let view3 = new View3();
+				}
+			});
+
+			let proRouter = new ProjectRouter();
+
+			Backbone.history.start();//to start router, we need to start broswer's history tracking
+		});
+			
+		</script>
+	</body>
+</html>
