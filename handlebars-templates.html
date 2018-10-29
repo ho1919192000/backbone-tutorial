@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>(Part 23) Handlebars templates in backbone.js</title>
+		<script src="js/jquery-3.3.1.js"></script>
+		<script src="js/handlebars-v4.0.12.js"></script>
+		<script src="js/underscore.js"></script>
+		<script src="js/backbone.js"></script>
+	</head>
+	<body>
+
+
+		<div id="content"></div>
+		
+		<script type="text/x-handlebars-template" id="tmpl-handlerbar">
+			
+		{{#each collection}}
+			{{this.name}} and {{this.team}}
+			<br>
+		{{/each}}
+		
+		</script>
+		<script type="text/javascript">
+
+		$(function() {
+			let log = console.log;
+			/*
+			(Part 23) Handlebars templates in backbone.js
+			
+			
+			*/
+		
+			/*---View---*/
+			let Player = Backbone.Model.extend({
+				defaults: {
+					name: "Howard Huang",
+					team: "World of Warcraft",
+					no: 10
+				}
+			});
+
+			let player1 = new Player({
+				name: "John Steve",
+				team: "Overwatch",
+				no: 13
+			});
+
+			let player2 = new Player({
+				name: "Tom King",
+				team: "CSGO",
+				no: 15
+			});
+
+			let PlayerCollecction = Backbone.Collection.extend({
+				model: Player
+			});
+
+			let playerCoObj = new PlayerCollecction([player1, player2]);
+			let View = Backbone.View.extend({
+				el: '#content',
+				collection: playerCoObj,
+				template: Handlebars.compile($("#tmpl-handlerbar").html()),
+				initialize: function() {
+					this.render();
+				},
+				render: function() {
+					this.$el.html(this.template({
+						collection: this.collection.toJSON()
+					}));
+				}
+			});
+
+			let view = new View();
+		});
+			
+		</script>
+	</body>
+</html>
